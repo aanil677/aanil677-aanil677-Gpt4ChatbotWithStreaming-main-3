@@ -60,7 +60,7 @@ export default function ChatComponent() {
                         {/* Name of the person talking */}
                         {
                             message.role === "assistant"
-                                ? <h3 className="text-lg font-semibold mt-2">GPT-4</h3>
+                                ? <h3 className="text-lg font-semibold mt-2">Jeff</h3>
                                 : <h3 className="text-lg font-semibold mt-2">User</h3>
                         }
 
