@@ -14,7 +14,7 @@ export default function ChatComponent() {
             window.speechSynthesis.cancel(); // Cancel any ongoing speech
 
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1.25; // Adjust speed
+            utterance.rate = 1.2; // Adjust speed
             utterance.pitch = 1; // Adjust pitch
             utterance.lang = 'en-US'; // Adjust language if needed
 
