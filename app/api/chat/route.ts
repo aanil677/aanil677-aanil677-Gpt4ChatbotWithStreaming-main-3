@@ -111,7 +111,8 @@ function handleKeywordMatching(query: string): string | null {
         location: teamData.TeamOverview.Location,
         "based": teamData.TeamOverview.Location,
         years: teamData.TeamOverview.YearsOfOperation,
-        programming: teamData.Programming
+        programming: teamData.Programming,
+        where: teamData.TeamOverview.Location
         // Add more keywords and sections as needed
     };
 
