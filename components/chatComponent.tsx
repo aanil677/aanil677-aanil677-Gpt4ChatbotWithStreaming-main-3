@@ -11,13 +11,18 @@ export default function ChatComponent() {
         console.log("TTS Triggered: Speaking the following text:", text);
 
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // Cancel any ongoing speech
+            // Ensure ongoing speech is canceled
+            window.speechSynthesis.cancel();
 
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1.2; // Adjust speed
+            utterance.rate = 1.25; // Adjust speed
             utterance.pitch = 1; // Adjust pitch
             utterance.lang = 'en-US'; // Adjust language if needed
 
+            // Log iOS compatibility
+            console.log("Is TTS supported? ", window.speechSynthesis);
+
+            // Speak the utterance
             window.speechSynthesis.speak(utterance);
 
             console.log("TTS is speaking the text.");
@@ -60,7 +65,7 @@ export default function ChatComponent() {
                         {/* Name of the person talking */}
                         {
                             message.role === "assistant"
-                                ? <h3 className="text-lg font-semibold mt-2">Jeff</h3>
+                                ? <h3 className="text-lg font-semibold mt-2">GPT-4</h3>
                                 : <h3 className="text-lg font-semibold mt-2">User</h3>
                         }
 
@@ -76,7 +81,14 @@ export default function ChatComponent() {
                 );
             })}
 
-            <form className="mt-12" onSubmit={handleSubmit}>
+            <form className="mt-12" onSubmit={(e) => {
+                handleSubmit(e);
+                // iOS-specific: Trigger a no-op to "wake" speech synthesis
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance("");
+                    window.speechSynthesis.speak(utterance);
+                }
+            }}>
                 <p>User Message</p>
                 <textarea
                     className="mt-2 w-full bg-slate-600 p-2"
