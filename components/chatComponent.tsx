@@ -57,6 +57,18 @@ export default function ChatComponent() {
         handleNewMessages();
     }, [messages]);
 
+    // Handle Submit, also ensuring a TTS wake-up if necessary
+    const handleFormSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleSubmit(e);
+
+        // iOS-specific: Trigger a no-op to "wake" speech synthesis
+        if ('speechSynthesis' in window) {
+            const dummyUtterance = new SpeechSynthesisUtterance(""); // Empty utterance to wake TTS
+            window.speechSynthesis.speak(dummyUtterance);
+        }
+    };
+
     return (
         <div>
             {messages.map((message: Message) => {
@@ -81,14 +93,7 @@ export default function ChatComponent() {
                 );
             })}
 
-            <form className="mt-12" onSubmit={(e) => {
-                handleSubmit(e);
-                // iOS-specific: Trigger a no-op to "wake" speech synthesis
-                if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance("");
-                    window.speechSynthesis.speak(utterance);
-                }
-            }}>
+            <form className="mt-12" onSubmit={handleFormSubmit}>
                 <p>User Message</p>
                 <textarea
                     className="mt-2 w-full bg-slate-600 p-2"
